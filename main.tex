@@ -1,0 +1,2126 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,top=1pt,bottom=2pt,left=1pt,right=1pt,marginparwidth=1pt,headheight=1pt]{geometry}
+
+\input{preamble.tex}
+
+\usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{color}
+\setlength{\columnsep}{0.2cm}
+\setlength{\columnseprule}{1pt}
+\def\columnseprulecolor{\color{blue}}
+
+\usepackage{xpatch}
+\xpatchcmd{\NCC@ignorepar}{%
+\abovedisplayskip\abovedisplayshortskip}
+{%
+\abovedisplayskip\abovedisplayshortskip%
+\belowdisplayskip\belowdisplayshortskip}
+{}{}
+
+\setlength{\parindent}{0in}
+\setlength{\parskip}{0in}
+
+\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
+\setlength{\abovedisplayskip}{0pt} \setlength{\abovedisplayshortskip}{0pt}
+\usepackage[dvipsnames]{xcolor}
+\newcommand{\bulletPoint}[1]{\underline{\textit{\textbf{#1}}}}
+
+
+
+% For better text align
+\usepackage{ragged2e}
+
+
+
+\begin{document}
+\singlespacing
+
+\begin{multicols*}{4}
+
+\tiny
+
+\raggedright
+
+% ===== Week 1: Introduction / Probability Review (compact version) =====
+
+\bulletPoint{Probability Basics}:
+$p(x)=\int p(x,y)\,dy$ \\
+Bayes' rule:
+$p(x\mid y)=\frac{p(x,y)}{p(y)}=\frac{p(y\mid x)\,p(x)}{p(y)}.$
+Independence:
+$X\perp Y \iff p(x,y)=p(x)p(y).$
+For i.i.d.\ $\mathcal D=\{x_1,\dots,x_n\}$:
+$p(\mathcal D)=\prod_{i=1}^n p(x_i),\;
+\log p(\mathcal D)=\sum_{i=1}^n \log p(x_i).$
+
+\bulletPoint{Expectation / Variance / Covariance}:
+
+$\mathbb E[X]=\int x\,p(x)\,dx,\;
+\mathbb E[g(X)]=\int g(x)\,p(x)\,dx.$\\
+$\mathrm{var}(X)=\mathbb E[X^2]-\mathbb E[X]^2$\\
+$\mathrm{cov}(X,Y)=\mathbb E[XY]-\mathbb E[X]\mathbb E[Y].$
+$\mathrm{var}(X+Y)=\mathrm{var}(X)+\mathrm{var}(Y)+2\,\mathrm{cov}(X,Y).$\\
+If $X,Y$ are independent, then
+$\mathbb E[XY]=\mathbb E[X]\mathbb E[Y].$
+
+\bulletPoint{Vector Random Variables}:
+For $x=[x_1,\dots,x_n]^\top$,
+$\mathbb E[x]=[\mathbb E[x_1],\dots,\mathbb E[x_n]]^\top,\;
+\mathbb E[Ax]=A\mathbb E[x].$
+$\mathrm{cov}(x)=\Sigma_{xx}=\mathbb E[(x-\mathbb E[x])(x-\mathbb E[x])^\top].$
+$\mathrm{cov}(Ax)=A\,\mathrm{cov}(x)\,A^\top,\;
+\mathrm{cov}(x,y)=\Sigma_{xy}=\mathbb E[(x-\mathbb E[x])(y-\mathbb E[y])^\top].$
+
+\bulletPoint{Bernoulli Distribution}:
+$X\sim \mathrm{Bern}(\theta),\; x\in\{0,1\},\;
+p(x\mid \theta)=\theta^x(1-\theta)^{1-x}.$
+$\mathbb E[X]=\theta,\; \mathrm{var}(X)=\theta(1-\theta).$
+
+\bulletPoint{Uniform Distribution}:
+$X\sim \mathrm{Unif}(a,b)$
+$p(x\mid a,b)=\frac{1}{b-a}$ for $a\le x\le b$, else $0$.
+$\mathbb E[X]=\frac{a+b}{2},\;
+\mathrm{var}(X)=\frac{(b-a)^2}{12}.$
+
+\bulletPoint{Exponential Distribution}:
+$X\sim \mathrm{Exp}(\lambda),\;
+p(x\mid \lambda)=\lambda e^{-\lambda x}$ for $x\ge 0$, else $0$.
+$\mathbb E[X]=\frac{1}{\lambda},\;
+\mathrm{var}(X)=\frac{1}{\lambda^2}.$
+
+\bulletPoint{Binomial Distribution}:
+$X\sim \mathrm{Bin}(n,\theta),\;
+P(X=x)=\binom{n}{x}\theta^x(1-\theta)^{n-x}; \binom{n}{x} = \frac{n!}{x!(n-x)!},\; x=0,\dots,n.$
+$\mathbb E[X]=n\theta,\; \mathrm{var}(X)=n\theta(1-\theta).$
+
+
+\bulletPoint{Parametric Bayesian Model}:
+Assume $x\sim p(x\mid \theta)$. Then
+$p(\theta\mid x)=\frac{p(x\mid \theta)p(\theta)}{p(x)}
+\propto p(x\mid \theta)\,p(\theta),$
+where posterior $\propto$ likelihood $\times$ prior.
+Normalization:
+$p(x)=\int p(x\mid \theta)p(\theta)\,d\theta.$
+
+\bulletPoint{Conjugate Prior}:
+If $p(\theta)$ and $p(\theta\mid x)$ have the same form, then $p(\theta)$ is a conjugate prior for $p(x\mid \theta)$.
+$\log p(\theta\mid x)=\log p(x\mid \theta)+\log p(\theta)+\mathrm{const}.$
+
+\bulletPoint{Beta Distribution}:
+$\theta\sim \mathrm{Beta}(a,b),\; a,b>0,\; \theta\in[0,1],$
+
+$p(\theta\mid a,b)=
+\frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}
+\theta^{a-1}(1-\theta)^{b-1}.
+$
+
+\bulletPoint{Bernoulli + Beta}:\\
+1. For $x\in\{0,1\}$,
+{\color{blue}$p(\theta\mid x)\propto \mathrm{Bern}(x\mid \theta)\,\mathrm{Beta}(\theta\mid a,b)
+\propto \theta^{x+a-1}(1-\theta)^{b-x}.$}\\
+Hence
+$\theta\mid x \sim \mathrm{Beta}(a+x,\; b+1-x).$\\
+2. For i.i.d.\ $\mathcal D=\{x_1,\dots,x_n\}$,\\
+$p(\mathcal{D}\mid \theta)=
+\prod_{i=1}^n p(x_i\mid \theta)=
+\prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i}.$
+
+{\color{blue}$p(\theta\mid \mathcal{D})
+\propto
+p(\mathcal{D}\mid \theta)\,p(\theta)
+\propto
+	\theta^{\sum_{i=1}^n x_i + a - 1}
+(1-\theta)^{\,n-\sum_{i=1}^n x_i + b - 1}.$}
+
+\useshortskip\noindent\resizebox{\linewidth}{!}{$
+{\color{RoyalPurple!80!black}
+\theta\mid \mathcal D \sim
+\mathrm{Beta}\!\left(a+\sum_{i=1}^n x_i,\; b+n-\sum_{i=1}^n x_i\right).}
+$}\\
+\useshortskip\noindent\resizebox{\linewidth}{!}{$
+\textcolor{MidnightBlue}{
+\bm{\log p(\mathcal D\mid \theta)=
+\sum_{i=1}^n \bigl(x_i\log\theta+(1-x_i)\log(1-\theta)\bigr).}
+}
+$}
+
+\bulletPoint{Categorical Distribution}:
+$X\sim \mathrm{Cat}(\theta_1,\dots,\theta_K),\;
+\theta_k\ge 0,\; \sum_{k=1}^K \theta_k=1,\;
+P(X=k)=\theta_k.$
+For i.i.d.\ $\mathcal D=\{x_1,\dots,x_n\}$ and
+$N_k=\sum_{i=1}^n \mathbf 1\{x_i=k\}$,
+{\color{blue}
+$p(\mathcal D\mid \theta)=\prod_{k=1}^K \theta_k^{N_k}.$
+}
+
+\bulletPoint{Dirichlet Distribution}:
+$\theta=(\theta_1,\dots,\theta_K),\;
+\theta_k\in[0,1],\; \sum_{k=1}^K \theta_k=1.$
+{\color{blue}
+$p(\theta\mid \alpha)=
+\frac{\Gamma(\sum_{k=1}^K \alpha_k)}{\prod_{k=1}^K \Gamma(\alpha_k)}
+\prod_{k=1}^K \theta_k^{\alpha_k-1}.$
+}
+Posterior with categorical counts:
+$\theta\mid \mathcal D \sim
+\mathrm{Dir}(\alpha_1+N_1,\dots,\alpha_K+N_K).$
+Beta is the special case $K=2$.
+
+\bulletPoint{Gaussian Distribution}:
+$X\sim \mathcal N(\mu,\sigma^2)$ with
+\textcolor{MidnightBlue}{$\bm{p(x\mid \mu,\sigma^2)=
+\frac{1}{\sqrt{2\pi\sigma^2}}
+\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).}$}
+Standard normal: $Z\sim \mathcal N(0,1).$
+Useful properties:
+$aX\sim \mathcal N(a\mu,a^2\sigma^2),\;
+X+c\sim \mathcal N(\mu+c,\sigma^2),\;
+X=\sigma Z+\mu\sim \mathcal N(\mu,\sigma^2).$
+If $X\sim \mathcal N(\mu,\sigma^2)$ and $Y\sim \mathcal N(\xi,\nu^2)$ are independent, then
+$X+Y\sim \mathcal N(\mu+\xi,\sigma^2+\nu^2).$
+
+\bulletPoint{Jointly Gaussian}:
+$X=[X_1,\dots,X_n]^\top$ is jointly Gaussian iff
+$a^\top X=\sum_{i=1}^n a_iX_i$ is Gaussian for all $a\in\mathbb R^n.$
+If $Z_1,\dots,Z_K\overset{i.i.d.}{\sim}\mathcal N(0,1)$ and $X=AZ+\mu$, then
+$\mathbb E[X]=\mu,\; \mathrm{cov}(X)=AA^\top.$
+{\color{blue}
+\useshortskip\noindent\resizebox{\linewidth}{!}{$
+\begin{aligned}
+\mathcal N(x\mid \mu,\Sigma)
+&= \frac{1}{(2\pi)^{K/2}(\det \Sigma)^{1/2}} \\
+&\quad \exp\!\left(-\frac12 (x-\mu)^\top \Sigma^{-1}(x-\mu)\right).
+\end{aligned}
+$}
+}
+$p(\mathbf{x}\mid\theta)=p(x_1\mid\theta)p(x_2\mid x_1,\theta).$
+
+\bulletPoint{2D Joint Gaussian}:
+For
+$X=\begin{bmatrix}X\\Y\end{bmatrix},\;
+\mu=\begin{bmatrix}\mu_X\\ \mu_Y\end{bmatrix},\;
+\Sigma=\begin{bmatrix}
+\sigma_X^2 & \mathrm{cov}(X,Y)\\
+\mathrm{cov}(X,Y) & \sigma_Y^2
+\end{bmatrix},$
+the correlation coefficient is
+$\rho_{X,Y}=\frac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}.$
+
+
+% ===== Week 2: Bayesian Inference (compact, colored long formulas) =====
+
+\bulletPoint{Likelihood Function}:
+Given i.i.d.\ data $\mathcal D=\{x_1,\dots,x_n\}$, the likelihood is
+$p(\mathcal D\mid \theta)=\prod_{i=1}^n p(x_i\mid \theta).$
+
+\bulletPoint{Likelihood Examples}:
+If $x_i\overset{i.i.d.}{\sim}\mathrm{Bern}(\theta)$, then
+$p(\mathcal D\mid \theta)=\theta^{N_1}(1-\theta)^{N_0}$,
+where $N_k=\sum_{i=1}^n \mathbf 1\{x_i=k\}.$
+If $x_i\overset{i.i.d.}{\sim}\mathrm{Exp}(\lambda)$, then
+$p(\mathcal D\mid \lambda)=\lambda^n\exp\!\left(-\lambda\sum_{i=1}^n x_i\right).$
+If $x_i\overset{i.i.d.}{\sim}\mathcal N(\mu,\sigma^2)$, then
+\textcolor{blue!50!black}{$\textstyle
+p(\mathcal D\mid \mu,\sigma^2)=
+\frac{1}{(2\pi)^{n/2}\sigma^n}
+\exp\!\left(-\frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2\right).
+$}
+
+\bulletPoint{Maximum Likelihood Estimate (MLE)}:
+$\theta_{\mathrm{ML}}=\arg\max_{\theta} p(\mathcal D\mid \theta)
+=\arg\max_{\theta}\log p(\mathcal D\mid \theta).$
+For i.i.d.\ data,
+$\log p(\mathcal D\mid \theta)=\sum_{i=1}^n \log p(x_i\mid \theta).$
+
+\bulletPoint{Bernoulli MLE}:
+If $p(\mathcal D\mid \theta)=\theta^{N_1}(1-\theta)^{N_0}$, then
+$\log p(\mathcal D\mid \theta)=N_1\log\theta+N_0\log(1-\theta),$
+and
+$\theta_{\mathrm{ML}}=\frac{N_1}{N_0+N_1}=\frac{N_1}{n}.$
+
+\bulletPoint{Exponential MLE}:
+If $x_i\overset{i.i.d.}{\sim}\mathrm{Exp}(\lambda)$, then
+$\log p(\mathcal D\mid \lambda)=n\log\lambda-\lambda\sum_{i=1}^n x_i,$
+and
+$\lambda_{\mathrm{ML}}=\frac{n}{\sum_{i=1}^n x_i}.$
+
+\bulletPoint{Gaussian Mean MLE (known $\sigma^2$)}:
+If $x_i\overset{i.i.d.}{\sim}\mathcal N(\mu,\sigma^2)$ with known variance, then
+$\log p(\mathcal D\mid \mu)=
+-\frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2+\mathrm{const},$
+and
+$\mu_{\mathrm{ML}}=\frac{1}{n}\sum_{i=1}^n x_i.$
+
+\bulletPoint{KL Divergence (supplementary)}:
+$D(p\|q)=\mathbb E_p\!\left[\log\frac{p(x)}{q(x)}\right]\ge 0,$
+with equality iff $p=q$ almost everywhere.
+For large $n$, MLE approximately minimizes $D(p_{\theta_0}\|p_\theta).$
+
+\bulletPoint{Linear Regression Model}:
+$y=w^\top x+\epsilon,\;\epsilon\sim \mathcal N(0,\sigma^2),$
+so
+$p(y\mid x,w)=\mathcal N(y\mid w^\top x,\sigma^2).$
+With basis expansion,
+$\phi(x)=[\phi_1(x),\dots,\phi_M(x)]^\top,$
+and
+$y=w^\top\phi(x)+\epsilon.$
+
+\bulletPoint{MLE for Linear Regression Weights}:
+Given $\mathcal D=\{(x_i,y_i)\}_{i=1}^n$,
+\textcolor{blue!50!black}{$\textstyle
+\log p(y\mid \phi(x),w)
+=
+\sum_{i=1}^n \log \mathcal N(y_i\mid w^\top \phi(x_i),\sigma^2)
+=
+-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-w^\top \phi(x_i))^2+\mathrm{const}.
+$}
+Let
+$\Phi=
+\begin{bmatrix}
+\phi(x_1)^\top\\
+\vdots\\
+\phi(x_n)^\top
+\end{bmatrix}$
+and
+$y=
+\begin{bmatrix}
+y_1\\
+\vdots\\
+y_n
+\end{bmatrix}.$
+Then
+$\log p(y\mid \Phi,w)= -\frac{1}{2\sigma^2}\|\Phi w-y\|^2+\mathrm{const},$
+so MLE is least squares:
+$\min_w \|\Phi w-y\|^2,$
+and
+\textcolor{purple!60!black}{$\textstyle
+w_{\mathrm{ML}}=(\Phi^\top\Phi)^{-1}\Phi^\top y
+$}
+if $\Phi^\top\Phi$ is invertible.
+
+\bulletPoint{Example Basis Functions}:
+For $x=[x_1,x_2]^\top$,
+$\phi(x)=[1,\;x_1,\;x_2,\;x_1^2,\;x_2^2]^\top,$
+so
+$y=w_1+w_2x_1+w_3x_2+w_4x_1^2+w_5x_2^2+\epsilon.$
+
+\bulletPoint{Goodness of Fit}:
+$\mathrm{RSS}=\sum_{i=1}^n (y_i-\hat y_i)^2.$
+$\mathrm{RMSE}=\sqrt{\frac{1}{n}\mathrm{RSS}}.$
+$\bar y=\frac{1}{n}\sum_{i=1}^n y_i.$
+\textcolor{MidnightBlue}{\boldmath $\textstyle
+R^2=1-\frac{\mathrm{RSS}}{\mathrm{TSS}}
+=1-\frac{\mathrm{RSS}}{\sum_{i=1}^n (y_i-\bar y)^2}.
+$}
+
+\bulletPoint{Maximum A Posteriori (MAP)}:
+$\theta_{\mathrm{MAP}}=\arg\max_{\theta} p(\theta\mid \mathcal D).$
+Using Bayes' rule,
+$p(\theta\mid \mathcal D)\propto p(\mathcal D\mid \theta)p(\theta),$
+and
+$\log p(\theta\mid \mathcal D)=\log p(\mathcal D\mid \theta)+\log p(\theta)+\mathrm{const}.$
+
+\bulletPoint{Bernoulli + Beta MAP}:
+If
+$p(\mathcal D\mid \theta)=\theta^{N_1}(1-\theta)^{N_0}$
+and
+$p(\theta)=\mathrm{Beta}(a,b),$
+then
+$\log\bigl(p(\mathcal D\mid \theta)p(\theta)\bigr)
+=
+(N_1+a-1)\log\theta+(N_0+b-1)\log(1-\theta),$
+and
+\textcolor{purple!60!black}{$\textstyle
+\theta_{\mathrm{MAP}}=\frac{N_1+a-1}{n+a+b-2}.
+$}
+
+\bulletPoint{Gaussian Mean MAP (known $\sigma^2$)}:
+If
+$x_i\overset{i.i.d.}{\sim}\mathcal N(\mu,\sigma^2)$
+and
+$\mu\sim \mathcal N(\mu_0,1),$
+then
+\textcolor{blue!50!black}{$\textstyle
+\log p(\mu\mid \mathcal D)
+=
+-\frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2
+-\frac{1}{2}(\mu-\mu_0)^2+\mathrm{const},
+$}
+and
+\textcolor{MidnightBlue}{\boldmath $\textstyle
+\mu_{\mathrm{MAP}}
+=
+\frac{\frac{1}{\sigma^2}\sum_{i=1}^n x_i+\mu_0}
+{\frac{n}{\sigma^2}+1}.
+$}
+
+\bulletPoint{MAP Classification Rule}:
+Choose
+$\delta(x)=\arg\max_k p(y=k\mid x).$
+This minimizes classification error for the given $x$.
+
+\bulletPoint{Naive Bayes}:
+Assume conditional independence of features given the class:
+$p(x\mid y=c,\theta)=\prod_{d=1}^D p(x_d\mid \theta_{dc}).$
+If $\pi(c)=p(y=c)$ is the class prior, then
+\textcolor{blue!50!black}{$\textstyle
+p(y=c\mid x,\theta)\propto \pi(c)\prod_{d=1}^D p(x_d\mid \theta_{dc}).
+$}
+For binary features,
+$x_d\mid y=c \sim \mathrm{Bern}(\theta_{dc}).$
+
+% ===== Week 3: Mixture Models and EM (compact, colored long formulas) =====
+
+% ------------------------------------------------------------
+% EM Algorithm Cheatsheet
+% ------------------------------------------------------------
+
+\bulletPoint{EM Algorithm}:
+用于处理含有 latent variables / missing data 的 MLE 问题。
+Observed data:
+$
+x=\{x_1,\dots,x_n\}.
+$；
+Latent variables:
+$
+z=\{z_1,\dots,z_n\}.
+$；
+Parameters:
+$
+\theta.
+$
+
+目标是求 MLE：
+$
+\hat\theta
+=
+\arg\max_\theta \log p(x\mid \theta).
+$
+但 $z$ 没有被观测到，难直接最大化。
+
+% ------------------------------------------------------------
+\bulletPoint{Observed-data Likelihood}:
+若 latent label $z_i$ unknown，则对所有 possible components 求和：
+$
+p(x_i\mid \Theta)
+=
+\sum_{k=1}^K
+\pi_k f_k(x_i\mid \theta_k),
+\quad
+\Theta=\{\pi_k,\theta_k\}_{k=1}^K.
+$
+For independent samples,
+$
+\ell(\Theta)
+=
+\sum_{i=1}^n
+\log
+\left[
+\sum_{k=1}^K
+\pi_k f_k(x_i\mid \theta_k)
+\right].
+$
+这是 log-sum form，通常难以直接 optimize，因此用 EM.
+
+% ------------------------------------------------------------
+
+\bulletPoint{E-step: $Q$ and Responsibilities}:
+At iteration $m$, current parameters are $\Theta^{(m)}$.
+
+General E-step:
+$
+Q(\Theta\mid\Theta^{(m)})
+=
+\mathbb E_{z\mid x,\Theta^{(m)}}
+[
+\log p(x,z\mid\Theta)
+].
+$
+
+For a mixture model:
+$
+Q(\Theta\mid\Theta^{(m)})
+=
+\sum_{i=1}^n\sum_{k=1}^K
+r_{ik}^{(m)}
+\left[
+\log \pi_k+\log f_k(x_i\mid\theta_k)
+\right].
+$
+
+Responsibilities:
+$
+r_{ik}^{(m)}
+=
+P(z_i=k\mid x_i,\Theta^{(m)})
+=
+\frac{
+\pi_k^{(m)} f_k(x_i\mid \theta_k^{(m)})
+}{
+\sum_{j=1}^K
+\pi_j^{(m)} f_j(x_i\mid \theta_j^{(m)})
+}.
+$
+
+其中 $r_{ik}^{(m)}$ 是 sample $x_i$ 属于 component $k$ 的 posterior probability，且
+$
+\sum_{k=1}^K r_{ik}^{(m)}=1.
+$
+
+注意：
+$
+\text{E-step only updates } r_{ik}^{(m)}, \text{ not parameters.}
+$
+
+% ------------------------------------------------------------
+
+\bulletPoint{M-step}:
+M-step 用 E-step 得到的 responsibilities 作为 soft labels 来更新 parameters:
+$
+\Theta^{(m+1)}
+=
+\arg\max_{\Theta}
+Q(\Theta\mid\Theta^{(m)}).
+$
+
+Effective sample size:
+$
+n_k^{(m)}
+=
+\sum_{i=1}^n r_{ik}^{(m)}.
+$
+
+Mixture weight update:
+$
+\pi_k^{(m+1)}
+=
+\frac{n_k^{(m)}}{n}.
+$
+
+Component parameter update:
+$
+\theta_k^{(m+1)}
+=
+\arg\max_{\theta_k}
+\sum_{i=1}^n
+r_{ik}^{(m)}
+\log f_k(x_i\mid \theta_k).
+$
+
+General calculation method:
+{\scalebox{0.8}{$
+Q_k(\theta_k)
+=
+\sum_{i=1}^n
+r_{ik}^{(m)}
+\log f_k(x_i\mid\theta_k),
+$}}
+{\scalebox{0.8}{$
+\frac{\partial Q_k}{\partial \theta_k}=0
+\Rightarrow
+\theta_k^{(m+1)}.
+$}}
+
+不同 distribution 只改变 $f_k(x_i\mid\theta_k)$，因此 M-step update 不同：
+$
+\text{Bernoulli} \Rightarrow \text{update probability},
+\quad
+\text{Gaussian} \Rightarrow \text{update mean/covariance},
+\quad
+\text{Poisson} \Rightarrow \text{update rate}.
+$
+% ------------------------------------------------------------
+
+\bulletPoint{Bernoulli Mixture}:
+若每个 component 是 Bernoulli distribution:
+$
+f_k(x_i\mid\theta_k)=\theta_k^{x_i}(1-\theta_k)^{1-x_i},
+\quad x_i\in\{0,1\}.
+$
+
+E-step 计算 responsibility:
+{\scalebox{0.8}{$
+r_{ik}^{(m)}
+=
+\frac{
+\pi_k^{(m)}
+(\theta_k^{(m)})^{x_i}
+(1-\theta_k^{(m)})^{1-x_i}
+}{
+\sum_{j=1}^K
+\pi_j^{(m)}
+(\theta_j^{(m)})^{x_i}
+(1-\theta_j^{(m)})^{1-x_i}
+}.
+$}}
+
+M-step update:
+{\scalebox{0.8}{$
+n_k^{(m)}=\sum_{i=1}^n r_{ik}^{(m)},
+\quad
+\pi_k^{(m+1)}=\frac{n_k^{(m)}}{n},
+\quad
+\theta_k^{(m+1)}
+=
+\frac{
+\sum_{i=1}^n r_{ik}^{(m)}x_i
+}{
+\sum_{i=1}^n r_{ik}^{(m)}
+}.
+$}}
+
+这里 $\theta_k$ 是 component $k$ 的 success probability；
+$\sum_i r_{ik}^{(m)}x_i$ 是 soft number of successes，
+$\sum_i r_{ik}^{(m)}$ 是 soft total count.
+
+\bulletPoint{EM for GMM}:
+\textcolor{blue!50!black}{$\textstyle
+r_{ik}^{(m)}
+=
+p(z_i=k\mid x_i,\theta^{(m)})
+=
+\frac{\pi_k^{(m)}\,\mathcal N(x_i\mid \mu_k^{(m)},\Sigma_k^{(m)})}
+{\sum_{j=1}^K \pi_j^{(m)}\,\mathcal N(x_i\mid \mu_j^{(m)},\Sigma_j^{(m)})}.
+$}
+\textcolor{blue!50!black}{\scalebox{0.8}{$\textstyle
+\pi_k^{(m+1)}=\frac{n_k^{(m)}}{n},\mu_k^{(m+1)}=\frac{\sum_{i=1}^n r_{ik}^{(m)}x_i}{n_k^{(m)}},
+$}}
+\textcolor{MidnightBlue}{\boldmath \scalebox{0.75}{$\textstyle
+\Sigma_k^{(m+1)}
+=\frac{1}{n_k^{(m)}}
+\sum_{i=1}^n
+r_{ik}^{(m)}
+\bigl(x_i-\mu_k^{(m+1)}\bigr)\bigl(x_i-\mu_k^{(m+1)}\bigr)^\top.
+$}}
+- Stop when
+$
+|\ell(\Theta^{(m+1)})-\ell(\Theta^{(m)})|\le \epsilon
+$
+or parameters become stable.
+
+- EM makes likelihood non-decreasing:
+$
+\ell(\Theta^{(m+1)})\ge \ell(\Theta^{(m)}).
+$
+But it may converge to a local maximum and depends on initialization.
+
+
+
+
+
+
+
+
+\bulletPoint{K-Means as a Special Case of GMM}:
+K-Means 可以看成 GMM 的一个特殊情形：设所有 components 都满足
+\textcolor{blue!50!black}{$\textstyle
+\Sigma_k=\sigma^2 I, \pi_k=\frac{1}{K},
+$}
+且它们是 fixed and known，因此只需要估计 cluster centers $\mu_1,\dots,\mu_K$。
+
+在 E-step 中，采用 hard assignment：对每个 sample $x_i$，找到最近的 center
+\textcolor{blue!50!black}{$\textstyle
+k_i=\arg\min_k \|x_i-\mu_k^{(m)}\|^2,
+$}
+并将 $x_i$ 完全分配给该 cluster。Then
+$Q(\theta\mid \theta^{(m)})
+=
+-\frac{1}{2\sigma^2}\sum_{i=1}^n \|x_i-\mu_{k_i}^{(m)}\|^2+\mathrm{const}.$
+
+在 M-step 中，更新每个 center 为分配到该 cluster 的样本均值：
+\textcolor{purple!60!black}{$\textstyle
+\mu_k^{(m+1)}=\frac{1}{N_k}\sum_{i:k_i=k} x_i.
+$}
+where
+$N_k=\sum_{i=1}^n \mathbf 1\{k_i=k\}.$
+
+\emph{本质：Assign each sample to the nearest center, then update each center by the mean of its assigned samples.}
+
+\bulletPoint{MAP for Mixture Models}:
+To regularize and avoid near-singular covariance matrices, impose a prior $p(\theta)$.在 MLE 的基础上额外加入一个 prior term，用来避免参数走向过于极端的解。
+
+Then
+$p(\theta\mid x)=\frac{p(x\mid \theta)p(\theta)}{p(x)},$
+and
+$\theta_{\mathrm{MAP}}
+=
+\arg\max_{\theta}\bigl(\log p(x\mid \theta)+\log p(\theta)\bigr).$
+
+\bulletPoint{EM for MAP}:
+E-step:
+$\;Q(\theta\mid \theta^{(m)})
+=
+\int p(y\mid x,\theta^{(m)})\log p(y\mid \theta)\,dy.$
+M-step: 在最大化 $Q$ 的同时加入 prior penalty
+$\;\theta^{(m+1)}
+=
+\arg\max_{\theta}
+\bigl(Q(\theta\mid \theta^{(m)})+\log p(\theta)\bigr).$
+As the data dimension increases, the number of parameters also grows rapidly, and MLE is more likely to encounter singular matrices or numerical issues. In contrast, MAP estimation can suppress covariance collapse through the prior and reduce the risk of EM failure.
+
+% % ===== Chapter 4: Markov Models and HMM =====
+\bulletPoint{Transition Matrix}\quad
+
+• Each row of $\mathbf{T}$ sums to one: $\sum_{j=1}^{M} T(i, j) = \sum_{j=1}^{M} p_{x[t] \mid x[t-1]}(j \mid i) = 1$.
+$\mathbf{T}$ is a (row) stochastic matrix.
+
+• Given initial distribution $\mathbf{p}_0 = [p_0(1), p_0(2), \dots, p_0(M)]$,  $\mathbf{p}_1 = \mathbf{p}_0 \mathbf{T}$. For general $t$, let $\mathbf{p}_t = [p_t(1), \dots, p_t(M)]$, then: $\mathbf{p}_t = \mathbf{p}_0 \mathbf{T}^t$.
+
+
+\bulletPoint{MLE for Transition Matrix}\quad
+
+• Estimate prior $\pi$ and transition matrix $\mathbf{T}$ from training data:
+$p(x[0], \dots, x[t] \mid \pi, \mathbf{T}) = \pi(x[0]) \mathbf{T}(x[0], x[1])  \dots$ $\mathbf{T}(x[t-1], x[t])$.
+Given $n$ observed sequences $\mathcal{D} = \{\mathbf{x}_1[0:t_1], \dots, \mathbf{x}_n[0:t_n]\}$, each of varying length $t_i+1$, assume all data points follow the same $\mathbf{T}$. 
+
+• $\log p(\mathcal{D} \mid \pi, \mathbf{T}) = \sum_{i=1}^{n} \log \pi(x_i[0]) + \sum_{i=1}^{n} \sum_{t=1}^{t_i} \log \mathbf{T}(x_i[t-1], x_i[t])$
+$= \sum_{x=1}^{M} N_x \log \pi(x) + \sum_{x=1}^{M} \sum_{y=1}^{M} N_{xy} \log \mathbf{T}(x, y)$. 
+
+$N_x = \sum_{i=1}^{n} \mathbbm{1}(x_i[0] = x)$, $N_{xy} = \sum_{i=1}^{n} \sum_{t=1}^{t_i} \mathbbm{1}(x_i[t-1] = x, x_i[t] = y)$. 
+
+• $\hat{\pi}(x) = \frac{N_x}{n}$, $\hat{\mathbf{T}}(x, y) = \frac{N_{xy}}{\sum_{z=1}^{M} N_{xz}}$. 
+  
+• May predict certain strings are impossible if data have zero count of certain states (this is a form of overfitting).
+
+\bulletPoint{HMM: Hidden Markov Model}\quad
+
+A hidden Markov model consists of:
+
+• A discrete state Markov chain with \textbf{hidden states} or latent variables $z[t] \in \{1, \dots, M\}$, $t = 0,1,\dots$, with initial pdf $\pi$ and transition matrix $\mathbf{T}$.
+
+• An observation model with emission probabilities $p(\mathbf{x}[t] \mid z[t]) = p(\mathbf{x}[t] \mid \phi_{z[t]})$, where $\phi = (\phi_1, \dots, \phi_M)$. 
+
+
+\bulletPoint{Baum-Welch Algorithm for HMM Training}\quad
+
+1. Initialize $\theta^{(0)}$.
+
+2. \textbf{E step}: Use Forward-Backward Algorithm to compute
+    $\gamma_{i,t}(z) = p(z_i[t] = z | \mathbf{x}_i[0:t_i], \theta^{(m)}) \propto \alpha_j(z) \beta_j(z)$. 
+    $\xi_{i,t}(z,z') = p(z_i[t-1] = z, z_i[t] = z' | \mathbf{x}_i[0:t_i], \theta^{(m)})$
+    $\quad \propto \alpha_{t-1}(z) p(\mathbf{x}_i[t] | z_i[t]=z') \beta_t(z') p(z_i[t] = z' | z_i[t-1] = z)$. 
+
+3. \textbf{M step}: Update parameters
+    $\hat{\pi}(z) = \frac{\sum_{i=1}^{n} \gamma_{i,0}(z)}{n}$, 
+    $\hat{T}(z,z') = \frac{\sum_{i=1}^{n} \sum_{t=1}^{t_i} \xi_{i,t}(z,z')}{\sum_u \sum_{i=1}^{n} \sum_{t=1}^{t_i} \xi_{i,t}(z,u)}$, 
+    $\hat{\phi}_z$ = emission probability parameters. \quad
+4. Repeat E and M steps.
+  
+\bulletPoint{Inference in HMMs}\quad
+
+• Filtering: Estimate latent state $p(z[t] | \mathbf{x}[0:t])$ using observations up to time $t$ ({Forward Algorithm}). 
+
+• Smoothing: Estimate $p(z[t] | \mathbf{x}[0:T])$, using both past and future observations ({Forward-Backward Algorithm}). 
+
+• Fixed-lag smoothing: Estimate $p(z[t-l] | \mathbf{x}[0:t])$ for online inference ({Forward-Backward Algorithm}). 
+
+• Prediction: Estimate $p(z[t+h] | \mathbf{x}[0:t])$, where $h > 0$ is the prediction horizon:
+$p(z[t+h] | \mathbf{x}[0:t]) = \sum_{z[t],...,z[t+h-1]} p(z[t+h] | z[t+h-1]) p(z[t+h-1] | z[t+h-2]) \cdots p(z[t+1] | z[t]) \cdot p(z[t] | \mathbf{x}[0:t])$. 
+
+• MAP sequence: using Viterbi Algorithm, most probable sequence $\mathbf{z}^*[0:T] = \arg\max_{z[0:T]} p(z[0:T] | \mathbf{x}[0:T])$.
+
+% \bulletPoint{Markov Chain}:
+% Discrete-time states $x[0],x[1],\dots$ with $x[t]\in\{1,\dots,M\}$.
+% Markov property:
+% $p(x[t]\mid x[0],\dots,x[t-1])=p(x[t]\mid x[t-1]).$
+% Transition probability:
+% $T(i,j)=P(x[t]=j\mid x[t-1]=i).$
+% Transition matrix:
+% $T=[T(i,j)]_{i,j=1}^M.$
+
+% \bulletPoint{Stochastic Matrix}:
+% Each row sums to one:
+% $\sum_{j=1}^M T(i,j)=1.$ 行和=1，每个元素非负
+
+% \bulletPoint{State Distribution Propagation}:
+% If $p_t=[p_t(1),\dots,p_t(M)]$ is a row vector, then
+% $p_1=p_0T, p_t=p_{t-1}T=p_0T^t.$
+
+% \bulletPoint{Probability of a State Sequence}:
+% For a sequence $x[0],x[1],\dots,x[t]$,
+% $\displaystyle p(x[0:t]\mid \pi,T)=\pi(x[0])\prod_{\tau=1}^t T(x[\tau-1],x[\tau]).$
+
+% \bulletPoint{Language Models}:
+% Unigram:
+% $p(x[t]=x).$
+% Bigram:
+% $p(x[t]\mid x[t-1]).$
+% $n$-gram:
+% $p(x[t]\mid x[t-1],\dots,x[t-n+1]).$
+
+% \bulletPoint{MLE for Markov Chains}:
+% Given sequences $\mathcal D=\{x_1[0:t_1],\dots,x_n[0:t_n]\}$, define
+% $N_x=\sum_{i=1}^n \mathbf 1\{x_i[0]=x\},$
+% $N_{xy}=\sum_{i=1}^n \sum_{t=1}^{t_i}\mathbf 1\{x_i[t-1]=x,\;x_i[t]=y\}.$
+% Then
+% \textcolor{blue!50!black}{$\displaystyle
+% \log p(\mathcal D\mid \pi,T)
+% =
+% \sum_{x=1}^M N_x\log \pi(x)
+% +
+% \sum_{x=1}^M\sum_{y=1}^M N_{xy}\log T(x,y).
+% $}
+% MLE:
+% $\hat\pi(x)=\frac{N_x}{n}$,起始状态为 x 的比例
+% $\hat T(x,y)=\frac{N_{xy}}{\sum_{z=1}^M N_{xz}}$. x→y 的次数/ x 出发总次数
+
+% \bulletPoint{Hidden Markov Model (HMM)}:
+% Hidden states $z[t]\in\{1,\dots,M\}$ form a Markov chain with initial pdf $\pi$ and transition matrix $T$.
+% Observation / emission model:
+% $p(x[t]\mid z[t])=p(x[t]\mid \phi_{z[t]}),$
+% where $\phi=(\phi_1,\dots,\phi_M).$ 表示每个 hidden state 对应的一组 emission 参数
+
+% \bulletPoint{HMM Parameters}:
+% $\theta=(\pi,T,\phi).$
+% $\pi(z)$初始状态分布。表示序列一开始在状态 z 的概率。
+% $T(z,z')$ 状态转移概率。表示当前 hidden state 是 z，下一时刻变成 z' 的概率。
+% $\phi_z$ emission 参数。如果当前 hidden state 是 z，那 observation 会长什么样。
+% Gaussian HMM: $p(x\mid z)=\mathcal N(x\mid \mu_z,\Sigma_z).$
+% \bulletPoint{Complete-Data Log-Likelihood for HMM}:
+% If hidden states are observed,log-likelihood 长这样：
+% \textcolor{purple!60!black}{$\textstyle
+% \log p(\mathcal D\mid \theta)
+% =
+% \sum_{i=1}^n \log \pi(z_i[0])
+% +
+% \sum_{i=1}^n \sum_{t=1}^{t_i}\log T(z_i[t-1],z_i[t])
+% +
+% \sum_{i=1}^n \sum_{t=0}^{t_i}\log p(x_i[t]\mid \phi_{z_i[t]}).
+% $}
+% 这三部分分别对应：
+% initial states、state transitions、以及 emissions。
+
+
+% \bulletPoint{Why EM / Baum--Welch?}:
+% The hidden state sequences $z_i[0:t_i]$ are unknown, we cannot directly maximize the complete-data log-likelihood.
+% Baum--Welch is EM for HMMs:
+% \emph{E-step uses Forward--Backward to compute $\gamma$ and $\xi$,
+% and M-step uses these soft counts to update $\pi$, $T$, and $\phi$.}
+% Its objective is
+% \scalebox{0.92}{\textcolor{blue!50!black}{$\displaystyle
+% Q(\theta\mid \theta^{(m)})
+% =
+% \mathbb E_{z\mid x,\theta^{(m)}}[\log p(x,z\mid \theta)].
+% $}}
+
+% \bulletPoint{E-Step 中的后验量}:
+% E-step 将未知的硬计数替换为软计数。
+% 定义状态后验概率
+% \scalebox{0.8}{\textcolor{purple!60!black}{$\textstyle
+% \gamma_{i,t}(z)=P(z_i[t]=z\mid x_i[0:t_i],\theta^{(m)}),
+% $}}
+% 表示第 $i$ 个序列在 $t$ 处于状态 $z$ 的后验概率。\\
+% 定义pairwise transtion posterior
+% \scalebox{0.8}{\textcolor{purple!60!black}{$\textstyle
+% \xi_{i,t}(z,z')
+% =
+% P(z_i[t-1]=z,\ z_i[t]=z'\mid x_i[0:t_i],\theta^{(m)}),
+% $}}
+% 它表示在第 $t$ 步发生转移 $z\to z'$ 的后验概率。
+
+% \bulletPoint{E-Step Expansion}:
+% Using $\gamma$ and $\xi$, the auxiliary function becomes（辅助函数），initial-state 项用 $\gamma_{i,0}(z)$ 做 soft count，
+% transition 项用 $\xi_{i,t}(z,z')$ 做 soft count，
+% emission 项用 $\gamma_{i,t}(z)$ 做 soft count。
+% \textcolor{MidnightBlue}{\boldmath $\textstyle
+% Q(\theta\mid \theta^{(m)})
+% =
+% \sum_{i=1}^n\sum_{z=1}^M \gamma_{i,0}(z)\log \pi(z)
+% +
+% \sum_{i=1}^n\sum_{t=1}^{t_i}\sum_{z,z'=1}^M \xi_{i,t}(z,z')\log T(z,z')
+% +
+% \sum_{i=1}^n\sum_{t=0}^{t_i}\sum_{z=1}^M \gamma_{i,t}(z)\log p(x_i[t]\mid \phi_z).
+% $}
+
+
+
+% \bulletPoint{Forward--Backward for the E-Step}:
+% To compute $\gamma$ and $\xi$ efficiently.
+% Define the forward variable
+% \textcolor{blue!50!black}{$\textstyle
+% \alpha_t(z)=P(z[t]=z\mid x[0:t]),
+% $}
+% which summarizes how the past observations support state $z$ at time $t$.
+% Define the backward variable
+% \textcolor{blue!50!black}{$\textstyle
+% \beta_t(z)=P(x[t+1:T]\mid z[t]=z),
+% $}
+% which summarizes how well the future observations can be explained if the current state is $z$.
+% Then
+% \scalebox{0.92}{\textcolor{purple!60!black}{$\textstyle
+% \gamma_t(z)
+% =
+% \frac{\alpha_t(z)\beta_t(z)}
+% {\sum_{z'}\alpha_t(z')\beta_t(z')}
+% \propto \alpha_t(z)\beta_t(z),
+% $}}
+% and
+% \scalebox{0.8}{\textcolor{purple!60!black}{$\textstyle
+% \xi_t(z,z')
+% \propto
+% \alpha_{t-1}(z)\,T(z,z')\,p(x[t]\mid z[t]=z')\,\beta_t(z').
+% $}}
+% 这里 $\alpha,\beta$ 是计算工具，而 $\gamma,\xi$ 才是 E-step 真正需要的后验量。
+
+% \bulletPoint{M-Step Updates}:
+% After computing $\gamma$ and $\xi$, update the parameters using soft counts:
+% \scalebox{0.92}{\textcolor{blue!50!black}{$\textstyle
+% \hat\pi(z)=\frac{1}{n}\sum_{i=1}^n \gamma_{i,0}(z)$}}
+% \scalebox{0.8}{\textcolor{blue!50!black}{$\textstyle \hat T(z,z')
+% =
+% \frac{\sum_{i=1}^n\sum_{t=1}^{t_i}\xi_{i,t}(z,z')}
+% {\sum_{u=1}^M\sum_{i=1}^n\sum_{t=1}^{t_i}\xi_{i,t}(z,u)}.
+% $}}
+% For the emission parameters $\phi_z$, the update depends on the emission model.
+
+
+% \bulletPoint{Gaussian Emissions in HMM}:
+% If \scalebox{0.82}{$p(x\mid \phi_z)=\mathcal N(x\mid \mu_z,\Sigma_z)$}, then the M-step updates are weighted estimates:
+% \useshortskip\noindent\resizebox{\linewidth}{!}{$
+% \textcolor{purple!60!black}{\displaystyle
+% \hat\mu_z=
+% \frac{\sum_{i=1}^n\sum_{t=0}^{t_i}\gamma_{i,t}(z)x_i[t]}
+% {\sum_{i=1}^n\sum_{t=0}^{t_i}\gamma_{i,t}(z)},
+% \hat\Sigma_z=
+% \frac{\sum_{i=1}^n\sum_{t=0}^{t_i}\gamma_{i,t}(z)(x_i[t]-\hat\mu_z)(x_i[t]-\hat\mu_z)^\top}
+% {\sum_{i=1}^n\sum_{t=0}^{t_i}\gamma_{i,t}(z)}.
+% }
+% $}
+
+
+% \bulletPoint{Inference in HMMs}:
+% Filtering: $p(z[t]\mid x[0:t])$;
+% Smoothing: $p(z[t]\mid x[0:T])$;
+% Fixed-lag smoothing: $p(z[t-\ell]\mid x[0:t])$;
+% Prediction: $p(z[t+h]\mid x[0:t])$.
+% 前三个是在估计某个时刻的 hidden state posterior，Prediction 则是在预测未来状态。
+
+% \bulletPoint{Prediction}:
+% 先由当前 observations 得到当前 hidden-state posterior，再通过 transition model 向前传播：
+% \textcolor{purple!60!black}{$\textstyle
+% p(z[t+h]\mid x[0:t])
+% =
+% \sum_{z[t],\dots,z[t+h-1]}
+% p(z[t+h]\mid 
+% z[t+h-1])\cdots p(z[t+1]\mid z[t])\,p(z[t]\mid x[0:t]).
+% $}
+% 未来 observation 的分布为\textcolor{purple!60!black}{$\textstyle
+% p(x[t+h]\mid x[0:t])
+% =
+% \sum_{z[t+h]} p(x[t+h]\mid z[t+h])\,p(z[t+h]\mid x[0:t]).
+% $}
+
+% \bulletPoint{Viterbi / MAP Path}:
+% Viterbi 不是求逐时刻的 posterior，而是找整条最可能的 hidden path：
+% $z^*[0:T]=\arg\max_{z[0:T]} p(z[0:T]\mid x[0:T]).$
+% 等价地，最大化路径得分
+% \textcolor{MidnightBlue}{\boldmath $\textstyle
+% \log \pi(z[0])+\log p(x[0]\mid z[0])
+% +\sum_{t=1}^T\Bigl(\log T(z[t-1],z[t])+\log p(x[t]\mid z[t])\Bigr).
+% $}
+
+% \bulletPoint{Viterbi Recursion}:
+% 定义
+% $\delta_t(z)=\max_{z[0:t-1]}\log p(z[0:t-1],z[t]=z,x[0:t]),
+% $
+% 表示“到时刻 $t$ 停在状态 $z$ 的最佳路径分数”。
+% Initialization:
+% $
+% \delta_0(z)=\log \pi(z)+\log p(x[0]\mid z[0]=z).
+% $
+% Recursion:
+% \textcolor{blue!50!black}{$\textstyle
+% \delta_t(z)
+% =
+% \max_{z'}\{\delta_{t-1}(z')+\log T(z',z)\}
+% +\log p(x[t]\mid z[t]=z).
+% $}
+% Backpointer:
+% $
+% a_t(z)=\arg\max_{z'}\{\delta_{t-1}(z')+\log T(z',z)\}.
+% $
+% Terminate and traceback:
+% $
+% z^*[T]=\arg\max_z \delta_T(z),$
+% $z^*[t]=a_{t+1}(z^*[t+1]).
+% $
+
+% \bulletPoint{Key Difference}:
+% Filtering / smoothing / prediction 给出的是 state posterior distribution；
+% Viterbi 给出的是 one single best hidden-state path.
+
+% ===== Chapter 5: Sampling =====
+
+\bulletPoint{Monte Carlo Approximation}:
+
+If $x_1,\dots,x_n \overset{i.i.d.}{\sim} p(x\mid \theta)$, then by SLLN
+$\mathbb E[f(x)\mid \theta]\approx \frac{1}{n}\sum_{i=1}^n f(x_i).$
+
+\bulletPoint{Inverse-CDF Sampling}:
+若目标分布的 CDF 为 $F$，可先取 $U\sim \mathrm{Unif}(0,1)$，
+令$U=F(X)$； $X=F^{-1}(U)$；now $P(X\le x)=F(x)$，
+so $X$ 服从目标分布。
+
+\bulletPoint{CDF Pseudo-Inverse}:
+CDF 只要求单调不减，未必是一一对应；若 $F$ 不可直接求逆，找“最小的使累计概率达到 $u$ 的 $x$”。
+$F^{-1}(u)=\inf\{x:\; F(x)\ge u\},$
+
+\bulletPoint{Examples}:
+若 $X\sim \mathrm{Exp}(\lambda)$，$F(x)=1-e^{-\lambda x}$，则
+$X=-\frac{1}{\lambda}\log(1-U).$
+若 $X\sim \mathrm{Bern}(\theta)$，则
+$X=\mathbf 1\{U>1-\theta\}.$
+
+\bulletPoint{Transformation Formula}:
+If $Y=f(X)$ and the solutions to $f(x)=y$ are $x_1,\dots,x_K$, then
+\textcolor{blue!50!black}{$\textstyle
+p_Y(y)=\sum_{k=1}^K \frac{p_X(x_k)}{|f'(x_k)|}.
+$}
+
+\bulletPoint{Examples}:
+If $Y=aX+b$, then
+$p_Y(y)=\frac{1}{|a|}p_X\!\bigl(\frac{y-b}{a}\bigr).$
+If $Y=X^2$, then
+$p_Y(y)=\frac{1}{2\sqrt y}\bigl(p_X(\sqrt y)+p_X(-\sqrt y)\bigr).$
+
+\bulletPoint{Gamma Sampling for Integer Shape}:
+若 $Y\sim \mathrm{Gamma}(a,b)$ 且 $a$ 为正整数，则
+$Y=\sum_{i=1}^a X_i,$ 其中 $X_1,\dots,X_a \overset{i.i.d.}{\sim} \mathrm{Exp}(b).$
+直觉上：Gamma$(a,b)$ 是“等到第 $a$ 次事件发生的总等待时间”。
+
+\bulletPoint{Rejection Sampling Setup}:
+想从目标分布 $p(z)$ 中采样，但不能直接计算，只知道它和某个未归一化函数 $\tilde p(z)$成正比
+$p(z)=\frac{1}{M}\tilde p(z),$
+where $M$ is unknown.
+Choose proposal $q(z)$ and constant $k$ such that
+$kq(z)\ge \tilde p(z)$ for all $z,$
+with $\mathrm{supp}(p)\subset \mathrm{supp}(q).$
+
+\bulletPoint{Rejection Sampling Algorithm}:
+1. Sample $z\sim q(\cdot).$
+2. Sample $u\sim \mathrm{Unif}[0,kq(z)].$
+3. Accept $z$ if $u\le \tilde p(z).$
+
+\bulletPoint{Acceptance Probability}:
+\textcolor{purple!60!black}{$\textstyle
+P(\text{accept})
+=
+\int \frac{\tilde p(z)}{kq(z)}q(z)\,dz
+=
+\frac{M}{k}.
+$}
+Hence we want $k$ as small as possible subject to $kq(z)\ge \tilde p(z).$
+
+\bulletPoint{Why Rejection Sampling Works}:
+Accepted samples have cdf
+$\textstyle P(z\le z_0\mid \text{accepted})=\frac{1}{M}\int_{z\le z_0}\tilde p(z)\,dz,$
+so accepted $z$ is distributed according to $p(z).$
+
+\bulletPoint{Rejection Sampling for Bayesian Inference}:
+For posterior
+$p(\theta\mid \mathcal D)\propto p(\mathcal D\mid \theta)p(\theta),$
+take
+$\tilde p(\theta)=p(\mathcal D\mid \theta)p(\theta).$
+If choose proposal $q(\theta)=p(\theta)$, then
+$k=\max_\theta \frac{\tilde p(\theta)}{q(\theta)}=\max_\theta p(\mathcal D\mid \theta),$
+i.e.\ the maximum likelihood value.
+先从 prior 采样作为 proposal，再用 likelihood 决定是否 accept；
+likelihood 越大，越容易被 accept
+
+% \bulletPoint{Importance Sampling}:
+% To estimate
+% $\mathbb E_p[f(z)]=\int f(z)p(z)\,dz,$
+% use proposal $q(z)$:
+% \textcolor{MidnightBlue}{\boldmath $\textstyle
+% \mathbb E_p[f(z)]
+% =
+% \int f(z)\frac{p(z)}{q(z)}q(z)\,dz
+% \approx
+% \frac{1}{n}\sum_{i=1}^n w(z_i)f(z_i),
+% w(z)=\frac{p(z)}{q(z)},
+% \quad z_i\sim q.
+% $}
+
+% \bulletPoint{Support Condition for Importance Sampling}:
+% Need
+% $\mathrm{supp}(f(\cdot)p(\cdot))\subset \mathrm{supp}(q).$
+
+% \bulletPoint{Normalized Importance Weights}:
+% If only weighted averages matter, use
+% \textcolor{blue!50!black}{$\textstyle
+% w_n(z_i)=\frac{w(z_i)}{\sum_{j=1}^n w(z_j)},
+% \mathbb E_p[f(z)]\approx \sum_{i=1}^n w_n(z_i)f(z_i).
+% $}
+
+% \bulletPoint{Unnormalized Target Density in Importance Sampling}:
+% If $p(z)=\frac{1}{M}\tilde p(z)$ and $M$ is unknown, we may use
+% $\tilde w(z)=\frac{\tilde p(z)}{q(z)}$
+% because normalized weights are unchanged:
+% $\textstyle
+% \frac{\tilde p(z_i)/q(z_i)}{\sum_j \tilde p(z_j)/q(z_j)}
+% =
+% \frac{p(z_i)/q(z_i)}{\sum_j p(z_j)/q(z_j)}.$
+
+% \bulletPoint{Rare-Event / Tail Probability Example}:
+% To estimate $P(X>a)=\mathbb E[1_{\{X>a\}}]$, choose proposal $q$ concentrated on $(a,\infty)$ and use weighted samples.
+% Then
+% $\displaystyle P(X>a)\approx \frac{1}{n}\sum_{i=1}^n w(z_i)$
+% for samples $z_i>a$ drawn from $q.$
+
+% \bulletPoint{Sampling Importance Resampling (SIR)}:
+% 1. Sample $z_1,\dots,z_n\sim q(z).$
+% 2. Compute normalized weights $w_n(z_1),\dots,w_n(z_n).$
+% 3. Resample with replacement from $\{z_1,\dots,z_n\}$ according to these weights.
+
+% \bulletPoint{Why SIR Works}:
+% As $n\to\infty$, resampled points are asymptotically distributed according to $p(z).$
+% Typically take the number of resampled points $m\ll n.$
+
+% \bulletPoint{SIR for Bayesian Inference}:
+% For
+% $p(\theta\mid \mathcal D)\propto p(\mathcal D\mid \theta)p(\theta),$
+% sample $\theta_1,\dots,\theta_n$ from prior $q(\theta)=p(\theta)$.
+% Then
+% \textcolor{purple!60!black}{$\textstyle
+% w_n(\theta_i)
+% =
+% \frac{p(\mathcal D\mid \theta_i)}
+% {\sum_j p(\mathcal D\mid \theta_j)}.
+% $}
+% Resample according to these weights.
+
+% \bulletPoint{Sampling for EM}:
+% If
+% $Q(\theta\mid \theta^{(m)})=\int p(z\mid x,\theta^{(m)})\log p(x,z\mid \theta)\,dz,$
+% then with samples $z_1,\dots,z_n\sim p(z\mid x,\theta^{(m)})$,
+% \textcolor{MidnightBlue}{\boldmath $\textstyle
+% Q(\theta\mid \theta^{(m)})
+% \approx
+% \frac{1}{n}\sum_{i=1}^n \log p(x,z_i\mid \theta).
+% $}
+
+% \bulletPoint{Key Comparison}:
+% Rejection sampling:
+% accept / reject samples, needs envelope $kq(z)\ge \tilde p(z).$
+% Importance sampling:
+% no rejection, uses weights $w(z)=p(z)/q(z).$
+% SIR:
+% turns weighted samples into approximately unweighted samples from $p.$
+% ------------------------------------------------------------
+% Importance Sampling, Self-normalized IS, SIR, and Monte Carlo EM
+% ------------------------------------------------------------
+
+% ------------------------------------------------------------
+
+\bulletPoint{Importance Sampling}:
+
+不直接从 $p(z)$采样，而是从一个容易采样的 proposal distribution $q(z)$ 采样。用 weight 修正 $q(z)$ 和 $p(z)$ 之间的差异。
+
+因为：
+$
+\mathbb E_p[f(z)]
+=
+\int f(z)p(z)\,dz,
+=
+\int f(z)\frac{p(z)}{q(z)}q(z)\,dz.
+=
+\mathbb E_q\left[
+f(z)\frac{p(z)}{q(z)}
+\right].
+$
+
+定义 importance weight：
+$
+w(z)=\frac{p(z)}{q(z)}.
+$
+
+于是如果
+$
+z_1,\dots,z_n\sim q(z),
+$
+则有：
+$
+\mathbb E_p[f(z)]
+\approx
+\frac{1}{n}
+\sum_{i=1}^n
+w(z_i)f(z_i),
+$
+
+
+直观理解：从 $q$采样，用$\frac{p}{q}$修正采样偏差。
+
+
+如果某个区域 $p(z)$ 大但 $q(z)$ 小，说明这个区域在 target distribution 中很重要，但 proposal distribution 很少采到，所以采到后要给更大的 weight。
+
+% ------------------------------------------------------------
+
+\bulletPoint{Support Condition}:
+
+Importance Sampling 要求 proposal distribution $q(z)$ 覆盖 target distribution $p(z)$ 重要的区域。
+$
+\operatorname{supp}(p)
+\subseteq
+\operatorname{supp}(q).
+$
+
+如果我们要估计：
+$
+\mathbb E_p[f(z)],
+$
+则需要：
+$
+\operatorname{supp}(f(z)p(z))
+\subseteq
+\operatorname{supp}(q).
+$
+
+只要某个地方：
+$
+f(z)p(z)\neq 0,
+$
+就必须有：
+$
+q(z)>0.
+$
+
+否则，如果某个区域 $p(z)>0$ 但 $q(z)=0$，那么从 $q(z)$ 永远采不到这个区域
+
+% ------------------------------------------------------------
+
+\bulletPoint{Self-normalized Importance Sampling}:
+
+有时 target density $p(z)$ 不是直接已知的，而是只知道一个 unnormalized density：
+$
+\tilde p(z).
+$,
+
+$
+p(z)=\frac{\tilde p(z)}{Z},
+$
+其中：
+$
+Z=\int \tilde p(z)\,dz
+$
+是 normalization constant。
+
+如果 $Z$ 不知道，就不能直接计算：
+$
+w(z)
+=
+\frac{p(z)}{q(z)}
+=
+\frac{\tilde p(z)}{Zq(z)}.
+$, $Z$ unknown。
+
+因此改用 unnormalized importance weight：
+$
+\tilde w(z)=\frac{\tilde p(z)}{q(z)}.
+$
+
+然后用 Self-normalized Importance Sampling estimator：
+$
+\mathbb E_p[f(z)]
+\approx
+\frac{
+\sum_{i=1}^n \tilde w(z_i)f(z_i)
+}{
+\sum_{i=1}^n \tilde w(z_i)
+}$, 
+$
+z_i\sim q(z).
+$
+
+
+
+\bulletPoint{Rare-event Probability Estimation}:
+想估计一个 p(rare-event)可以选择一个 proposal distribution $q$，让它更容易采到 tail region $(a,\infty)$，提高估计效率。
+ eg:$P(X>a).$
+如果直接从 $p$ 采样，可能很少采到 $X>a$ 的样本，导致 estimator variance 很大。
+
+因为：
+$
+P(X>a)
+=
+\mathbb E_p\left[
+\mathbf 1_{\{X>a\}}
+\right]
+=
+\int \mathbf 1_{\{z>a\}}p(z)\,dz.
+$
+
+使用 proposal distribution $q(z)$ 后：
+
+
+$
+P(X>a)
+=
+\int
+\mathbf 1_{\{z>a\}}
+\frac{p(z)}{q(z)}
+q(z)\,dz
+\approx
+\frac{1}{n}
+\sum_{i=1}^n
+\mathbf 1_{\{z_i>a\}}
+\frac{p(z_i)}{q(z_i)},
+$
+$
+z_i\sim q(z).
+$
+q 的取值覆盖>a那段 tail region就可以
+
+% ------------------------------------------------------------
+
+\bulletPoint{Sampling Importance Resampling (SIR)}:
+
+Importance Sampling 得到的是 weighted samples：
+$
+(z_i,\tilde w_i)$,
+$i=1,\dots,n$.
+
+SIR的作用是：用normalized weights $\bar w_i$ 来 resampling 
+
+步骤如下：\\
+1.Sample proposal samples $z_1,\dots,z_n\sim q(z)$， $q(z)$ 易采样\\
+2.Compute unnormalized importance weights for each sample:
+$\tilde w_i=\frac{\tilde p(z_i)}{q(z_i)}$\\
+3.Normalize the weights，使和=1:
+$\bar w_i=
+\frac{\tilde w_i}
+{\sum_{j=1}^n \tilde w_j}$,
+因此 $\sum_{i=1}^n \bar w_i=1$， $\bar w_i$ 可以作 resampling probabilities.\\
+4.Resample with replacement from 
+$\{z_1,\dots,z_n\}$
+according to probabilities 
+$\{\bar w_1,\dots,\bar w_n\}$，得到 resampled points
+$z_1^*,\dots,z_m^*$。
+Resampling 后得到的样本近似服从 target distribution $p(z)$。
+当 $n\to\infty$ 时，resampled points 的 empirical distribution 会收敛到 $p(z)$。
+
+% ------------------------------------------------------------
+
+\bulletPoint{SIR for Bayesian Inference}:
+$
+p(\theta\mid \mathcal D)
+\propto
+p(\mathcal D\mid \theta)p(\theta).
+$
+
+因此 unnormalized posterior density 是：
+$
+\tilde p(\theta)
+=
+p(\mathcal D\mid \theta)p(\theta).
+$
+
+如果选择 prior distribution 作为 proposal distribution：
+$
+q(\theta)=p(\theta),
+$
+那么 importance weight 为：
+$
+\tilde w(\theta_i)
+=
+\frac{
+\tilde p(\theta_i)
+}{
+q(\theta_i)
+}
+=
+\frac{
+p(\mathcal D\mid \theta_i)p(\theta_i)
+}{
+p(\theta_i)
+}=
+p(\mathcal D\mid \theta_i).
+$
+
+Normalized weights 为：
+$
+\bar w_i
+=
+\frac{
+p(\mathcal D\mid \theta_i)
+}{
+\sum_{j=1}^n p(\mathcal D\mid \theta_j)
+}.
+$
+
+SIR for Bayesian inference 的步骤是：
+1.Sample $\theta_1,\dots,\theta_n\sim p(\theta)$.
+2.Compute weights: $\tilde w_i=p(\mathcal D\mid \theta_i)$.
+3.Normalize the weights.
+4.Resample $\theta_i$ according to the normalized weights.
+
+
+Resampled $\theta$ values 可以看作 approximate samples from posterior distribution：
+$
+p(\theta\mid \mathcal D).
+$
+
+% ------------------------------------------------------------
+
+\bulletPoint{Monte Carlo EM}:
+
+在 EM algorithm 中，E-step 需要计算：
+$
+Q(\theta\mid \theta^{(m)})
+=
+\mathbb E_{p(z\mid x,\theta^{(m)})}
+\left[
+\log p(x,z\mid \theta)
+\right]
+=
+\int
+p(z\mid x,\theta^{(m)})
+\log p(x,z\mid \theta)
+\,dz.
+$
+
+若积分无法解析计算，用 Monte Carlo approximation。从 latent variable posterior 中采样：
+$
+z_1,\dots,z_n
+\sim
+p(z\mid x,\theta^{(m)}).
+$
+
+然后：
+$
+Q(\theta\mid \theta^{(m)})
+\approx
+\frac{1}{n}
+\sum_{i=1}^n
+\log p(x,z_i\mid \theta).
+$
+
+如果我们能直接从
+$
+p(z\mid x,\theta^{(m)})
+$
+采样，那么这是普通 Monte Carlo approximation。如果不能直接采样，也可以引入 proposal distribution $q(z)$，再用 Importance Sampling 近似这个 E-step expectation。
+
+
+
+
+% ===== Chapter 6: Markov Chain Monte Carlo (MCMC) =====
+
+\bulletPoint{MCMC Goal}:
+希望从高维的 target pdf $\pi(x)$ 中进行采样。
+构造一个 Markov chain $Z_0,Z_1,\dots$，使得当 $n\to\infty$ 时，$Z_n$ 的分布趋近于 $\pi(\cdot)$。
+
+\bulletPoint{Stationary Distribution}:
+对于一个具有 transition probability $T(x,y)$ 的 homogeneous Markov chain，若
+$\sum_x \pi(x)T(x,y)=\pi(y)$ 对所有 $y$ 都成立，则 $\pi$ 是 stationary distribution。
+Matrix form:
+$\pi T=\pi.$
+
+% \bulletPoint{Conditions for Stationarity}:
+% Irreducible: every state can be reached from every other state in finitely many steps with positive probability.
+% Positive recurrent: expected return time to each state is finite.
+% For finite-state irreducible chains, positive recurrence automatically holds.
+
+\bulletPoint{Asymptotic Convergence}:
+如果该 chain 是 irreducible、positive recurrent 且 aperiodic，那么
+$\pi_k=\pi_0T^k \to \pi$
+当 $k\to\infty$ 时成立，
+其中 $\pi$ 是 stationary distribution。
+这样的 chain 是 ergodic。(遍历的)
+
+\bulletPoint{Reversibility}:
+A sufficient condition for $\pi$ to be stationary is
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+\pi(x)T(x,y)=\pi(y)T(y,x)
+ \forall x,y.
+$}}
+在平稳状态下，从 $x$ 到 $y$ 的概率流量，等于从 $y$ 到 $x$ 的概率流量
+
+\bulletPoint{Burn-In}:
+Discard the initial part of the chain before it is close to stationarity.
+Typical burn-in: first $1000$ to $5000$ samples.
+
+\bulletPoint{Thinning}:
+MCMC samples are usually correlated, especially consecutive samples. Thinning is used to reduce autocorrelation among the retained samples, making them more nearly independent.
+
+\bulletPoint{Metropolis--Hastings (MH)}:
+假设 target 只知道到 normalization 常数为止：
+$\pi(x)\propto \tilde\pi(x).$
+选择 proposal $q(x,y)$。
+在第 $m$ 步：
+当前状态为 $x=Z_{m-1}$，
+提出proposal $y\sim q(x,\cdot)$，
+以如下 accept probability 接受
+\textcolor{purple!60!black}{$\textstyle
+A(x,y)=\min\!\left(1,\frac{\tilde\pi(y)\,q(y,x)}{\tilde\pi(x)\,q(x,y)}\right).
+$}
+若被接受，则令 $Z_m=y$；否则令 $Z_m=x$。
+
+\bulletPoint{Why MH Works}:
+The MH chain is reversible with respect to $\pi$, so $\pi$ is a stationary distribution.
+If the chain is also irreducible and aperiodic, then $Z_n$ approaches $\pi$ in distribution.
+MH 先保证“目标分布是平稳的”，再加上链本身“能到处走且不周期卡住”，就能保证长期采样结果逼近目标分布。
+
+\bulletPoint{Random Walk MH}:从当前点 x 加一个随机扰动得到候选点y。
+Choose proposal of the form
+$q(x,y)=q(y-x).$
+Common choices:
+$y-x\sim \mathcal N(0,\Sigma)$
+or
+$y-x\sim \mathrm{Unif}[-\delta,\delta]^d.$
+acceptance rate about $0.25$ to $0.5$
+\bulletPoint{Metropolis Algorithm (Symmetric Proposal)}:
+如果提议分布是对称的，即 $q(x,y)=q(y,x)$, then acceptance simplifies to
+\textcolor{MidnightBlue}{\boldmath $\textstyle
+A(x,y)=\min\!\left(1,\frac{\tilde\pi(y)}{\tilde\pi(x)}\right).
+$}候选点密度更高就必接收，更低就按比例概率接收
+
+\bulletPoint{Independence Chain MH}:
+Choose proposal independent of current state:每一步候选点 y 都直接从同一个分布 q 抽，不管现在在 x 的哪里。
+$q(x,y)=q(y).$
+Works well only if $q$ approximates $\pi$ well, usually with heavier tails than $\pi$.这样能更稳地覆盖 π 的尾部，避免某些区域几乎提议不到，导致混合变差或接受率很低。
+acceptance rate close to $1$ is preferred.
+\bulletPoint{Proposal Tuning}:
+Random walk MH:
+\useshortskip
+\noindent\includegraphics[width=0.7\linewidth]{image/2.png}
+too small variance: slow exploration, high acceptance rate.
+too large variance:big jumps, low acceptance rate, chain gets stuck.
+
+
+\bulletPoint{Gibbs Sampling}:
+想从多变量分布 $p(z_1,\dots,z_d)$中采样.
+If full conditionals $p(z_i\mid z_{-i})$ are available, iterate:
+\scalebox{0.8}{\textcolor{blue!50!black}{$\textstyle
+z_1^{(k)}\sim p(z_1\mid z_2^{(k-1)},\dots,z_d^{(k-1)}),$}}
+\scalebox{0.8}{\textcolor{blue!50!black}{$\textstyle
+z_2^{(k)}\sim p(z_2\mid z_1^{(k)},z_3^{(k-1)},\dots,z_d^{(k-1)}),$}}
+\scalebox{0.8}{\textcolor{blue!50!black}{$\textstyle
+z_d^{(k)}\sim p(z_d\mid z_1^{(k)},\dots,z_{d-1}^{(k)}).
+$}}
+
+
+
+
+\bulletPoint{Why Gibbs Works}:
+Each Gibbs update leaves the target joint distribution invariant.
+Equivalently, Gibbs is an MH step with acceptance probability $1.$
+
+\bulletPoint{How to Get Full Conditionals}:
+Use
+$p(z_i\mid z_{-i})=\frac{p(z_1,\dots,z_d)}{p(z_{-i})}.$
+In practice:
+start from the joint density, ignore all terms not depending on $z_i$, and identify the resulting distribution.
+
+\bulletPoint{Gibbs Example}:
+
+1. For
+\scalebox{0.7}{$p(x,y,n)\propto \binom{n}{x}y^{x+a-1}(1-y)^{n-x+b-1}e^{-\lambda}\frac{\lambda^n}{n!},$}
+the full conditionals are
+\scalebox{0.7}{$x\mid y,n \sim \mathrm{Bin}(n,y),$}
+\scalebox{0.7}{$y\mid x,n \sim \mathrm{Beta}(x+a,n-x+b),$}
+\scalebox{0.7}{$n\mid x,y \sim \mathrm{Pois}((1-y)\lambda)+x.$}
+
+2. \scalebox{0.7}{$p(z_1,z_2,z_3)
+\propto
+z_1^{z_2+a-2}(1-z_1)^{b-1}\frac{1}{z_2!}\mathbf{1}_{\{z_3\in[0,z_1]\}}.
+$}
+
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+p(z_1\mid z_2,z_3)
+\propto
+z_1^{z_2+a-2}(1-z_1)^{b-1}\mathbf{1}_{\{z_1\ge z_3\}},
+$}}
+so
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+z_1\mid z_2,z_3
+\sim
+\operatorname{Beta}(z_2+a-1,b)
+\quad \text{truncated to } [z_3,1].
+$}}
+
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+p(z_2\mid z_1,z_3)
+\propto
+\frac{z_1^{z_2}}{z_2!},
+$}}
+so
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle    
+z_2\mid z_1,z_3
+\sim
+\operatorname{Pois}(z_1).
+$}}
+
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+p(z_3\mid z_1,z_2)
+\propto
+\mathbf{1}_{\{0\le z_3\le z_1\}},
+$}}
+so
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+z_3\mid z_1,z_2
+\sim
+\operatorname{Unif}(0,z_1).
+$}}
+
+Initialize \((z_1^{(0)},z_2^{(0)},z_3^{(0)})\). For each iteration \(k\), update:
+\scalebox{0.7}{\textcolor{blue!50!black}{$\textstyle
+z_1^{(k)},z_2^{(k)},z_3^{(k)}$}}
+
+Poisson distribution is
+\scalebox{0.7}{$
+\mathbb{P}(X=k)=\frac{e^{-\lambda}\lambda^k}{k!},
+$}
+
+
+% \bulletPoint{Ising Prior for Image Denoising}:
+% For binary hidden pixels $z_j\in\{-1,1\}$,
+% $p(z_j\mid z_{-j})\propto \prod_{s\in N_j}\psi(z_s,z_j),$
+% with
+% $\psi(u,v)=\exp(Juv),\quad J>0.$
+% Hence
+% \textcolor{purple!60!black}{$\textstyle
+% p(z_j\mid z_{-j})
+% =
+% \frac{1}{1+\exp\!\left(-2J\sum_{s\in N_j} z_sz_j\right)}
+% =
+% \mathrm{sigmoid}(2J\eta_j),
+% \eta_j=\sum_{s\in N_j} z_sz_j.
+% $}
+
+% \bulletPoint{Ising Posterior Conditional}:
+% With Gaussian noise model
+% $p(y_j\mid z_j)=\mathcal N(y_j\mid z_j,\sigma^2),$
+% the Gibbs conditional is
+% \textcolor{MidnightBlue}{\boldmath $\textstyle
+% p(z_j\mid z_{-j},y)
+% =
+% p(z_j\mid z_{-j},y_j)
+% =
+% \mathrm{sigmoid}\!\left(
+% 2J\eta_j-\log\frac{\mathcal N(y_j\mid -z_j,\sigma^2)}{\mathcal N(y_j\mid z_j,\sigma^2)}
+% \right).
+% $}
+
+\bulletPoint{Ways to Obtain Approximately i.i.d. Samples from Gibbs}:
+因为 Gibbs 连续产生的样本通常有相关性，不是严格独立，所以用两种常见策略减弱相关性：
+Option 1:
+run $r$ independent chains and keep the final sample from each.
+Option 2:
+run one long chain, discard burn-in, then thin by keeping every $d$th sample.
+
+
+\bulletPoint{Gibbs for Binary Hidden States}:
+Gibbs sampling 用于从 posterior $p(z\mid x)$ 中采样 hidden states。
+每次固定其他 variables，只更新一个 $z_i$:
+$
+z_i \sim p(z_i\mid z_{-i},x).
+$
+
+Full conditional:
+$
+p(z_i\mid z_{-i},x)
+\propto
+\text{terms involving }z_i.
+$
+实际操作：从 joint distribution 中只保留和 $z_i$ 有关的 terms，其他 terms 当作 constants 忽略。
+
+If $z_i\in\{D,U\}$, compute two unnormalized weights:
+$
+w_D
+=
+P(z_i=D)P(x_i\mid z_i=D)
+\psi(D,z_{i-1},z_{i+1}),
+$
+$
+w_U
+=
+P(z_i=U)P(x_i\mid z_i=U)
+\psi(U,z_{i-1},z_{i+1}).
+$
+
+Then normalize:
+$
+P(z_i=D\mid z_{-i},x)=\frac{w_D}{w_D+w_U},
+\quad
+P(z_i=U\mid z_{-i},x)=\frac{w_U}{w_D+w_U}.
+$
+
+
+
+
+% ===== Chapter 7: Introduction to Neural Networks and Deep Learning =====
+
+\bulletPoint{Artificial Neuron}:
+Local field / pre-activation:
+$v=\sum_{j=1}^m w_jx_j+b.$
+Bias as an additional input:
+$v=\sum_{j=0}^m w_jx_j,$
+with $x_0=1$ and $w_0=b.$
+Neuron output:
+$y=f(v).$
+
+\bulletPoint{Common Activation Functions}:
+Sigmoid:
+$f(x)=\frac{1}{1+e^{-x}}.$
+Threshold / step function:
+$\sigma(v)=1$ if $v\ge 0$, and $0$ otherwise.
+ReLU:
+$\mathrm{ReLU}(x)=\max(0,x).$
+
+\bulletPoint{Single-Neuron Perceptron}:
+Decision rule:
+$y=1$ if $w^\top p+b>0$, otherwise $y=0.$
+Decision boundary:
+$w^\top p+b=0.$
+The weight vector $w$ is orthogonal to the boundary.
+Positive decision region:
+$w^\top p+b>0.$
+
+\bulletPoint{Decision Boundary Geometry}:
+All points on the boundary satisfy the same inner product:
+$w^\top p=-b.$
+Scaling by any nonzero constant does not change the boundary:
+$w^\top p+b=0 \iff c\,w^\top p+c\,b=0.$
+
+\bulletPoint{OR Perceptron Example}:
+A valid choice is
+$w=\begin{bmatrix}1\\1\end{bmatrix}, b=-0.5.$
+Then
+$w^\top p+b=p_1+p_2-0.5,$
+which implements OR with a threshold neuron.
+
+\bulletPoint{AND Perceptron Example}:
+A valid choice is
+$w=\begin{bmatrix}1\\1\end{bmatrix}, b=-1.5.$
+Then
+$w^\top p+b=p_1+p_2-1.5,$
+which implements AND with a threshold neuron.
+
+\bulletPoint{Perceptron Limitation}:
+A single-layer perceptron can represent only a linear decision boundary, so it cannot solve linearly inseparable problems such as XOR.
+
+\bulletPoint{XOR with a Multi-Layer Network}:
+One construction uses two hidden neurons:
+$h_1=\sigma\!\left(\begin{bmatrix}1&1\end{bmatrix}p-0.5\right),
+h_2=\sigma\!\left(\begin{bmatrix}-1&-1\end{bmatrix}p+1.5\right).$
+Output neuron:
+$y=\sigma(h_1+h_2-1.5).$
+
+\bulletPoint{Multi-Layer Perceptron (MLP) Forward Pass}:
+For a 3-layer network,
+\textcolor{blue!50!black}{$\textstyle
+h_1=\sigma(W_1p+b_1),
+h_2=\sigma(W_2h_1+b_2),
+\hat y=\sigma(W_3h_2+b_3).
+$}
+Dimension reminder:
+if $h_1\in\mathbb R^4,\; h_2\in\mathbb R^2,\; \hat y\in\mathbb R,$ then
+$W_1\in\mathbb R^{4\times d},\; W_2\in\mathbb R^{2\times 4},\; W_3\in\mathbb R^{1\times 2}.$
+
+
+
+\bulletPoint{Universal Approximation / Decision Regions}:
+A 1-layer network gives a linear decision boundary.
+A 2-layer network can generate a single convex decision region.
+A 3-layer MLP can approximate arbitrary decision regions with enough hidden neurons.
+
+\bulletPoint{Universal Approximation Theorem (informal)}:
+A 2-layer MLP with nonconstant, bounded, and continuous hidden neurons, plus a linear output neuron, can approximate any continuous function arbitrarily well if it has enough hidden neurons.
+
+
+
+% ===== Chapter 8: Training Deep Networks =====
+
+\bulletPoint{Forward Propagation}:
+For one layer,
+$a^{(l)}=\sigma\!\left(W^{(l)}a^{(l-1)}+b^{(l)}\right).$
+With input $a^{(0)}=x$, an $L$-layer MLP computes
+\textcolor{blue!50!black}{$\textstyle
+y=f(x)=a^{(L)}
+=\sigma\!\Bigl(W^{(L)}\sigma\!\bigl(W^{(L-1)}\cdots \sigma(W^{(1)}x+b^{(1)})\cdots +b^{(L-1)}\bigr)+b^{(L)}\Bigr).
+$}
+
+\bulletPoint{Network Parameters}:
+$\theta=\{W^{(1)},b^{(1)},W^{(2)},b^{(2)},\dots,W^{(L)},b^{(L)}\}.$
+
+\bulletPoint{Softmax Output Layer}:
+For logits $z=(z_1,\dots,z_K)$,
+\textcolor{purple!60!black}{$\textstyle
+\hat y_k=\frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}},
+0<\hat y_k<1,
+\sum_{k=1}^K \hat y_k=1.
+$}
+
+\bulletPoint{Common Activation Functions}:
+Sigmoid:
+$\sigma(x)=\frac{1}{1+e^{-x}}.$
+Tanh:
+$\tanh(x)=2\sigma(2x)-1.$
+ReLU:
+$\mathrm{ReLU}(x)=\max(0,x).$
+Leaky ReLU:
+$\mathrm{LReLU}(x)=\begin{cases}\alpha x,&x<0,\\x,&x\ge 0.\end{cases}$
+Linear / identity:
+$f(x)=cx$ (often $c=1$).used in regression output layer. 
+Also known as identity activation function.
+
+\bulletPoint{Data Preprocessing}:
+Standardization:
+$x_{\mathrm{std}}=\frac{x-\mu}{\sigma}.$
+Min-max normalization:
+$x_{\mathrm{norm}}=\frac{x-x_{\min}}{x_{\max}-x_{\min}}.$
+
+\bulletPoint{Classification Targets}:
+For $K$ classes, use $K$ output neurons and one-hot targets:
+$y=(0,\dots,0,1,0,\dots,0).$
+Prediction:
+$\hat c=\arg\max_k \hat y_k.$
+
+\bulletPoint{Training Objective}:
+For dataset $\{(x^{(i)},y^{(i)})\}_{i=1}^N$,
+$\mathcal L(\theta)=\sum_{i=1}^N \mathcal L_i(\theta),$
+or often the average loss
+$\frac{1}{N}\sum_{i=1}^N \mathcal L_i(\theta).$
+
+\bulletPoint{Cross-Entropy Loss}:
+For multi-class classification,
+\textcolor{MidnightBlue}{\boldmath $\textstyle
+\mathcal L(\theta)
+=
+-\frac{1}{N}\sum_{i=1}^N \sum_{k=1}^K
+y_k^{(i)}\log \hat y_k^{(i)}.
+$}
+其中 $N$ 是 samples 数量，$K$ 是 classes 数量，$y_k^{(i)}$ 是 true label，$\hat y_k^{(i)}$ 是 predicted probability。
+
+Binary form used in the slides:
+\scalebox{0.7}{\textcolor{MidnightBlue}{\boldmath $\textstyle
+\mathcal L(\theta)
+=
+-\frac{1}{N}\sum_{i=1}^N \sum_{k=1}^K
+\left(
+y_k^{(i)}\log \hat y_k^{(i)}
++
+(1-y_k^{(i)})\log(1-\hat y_k^{(i)})
+\right).
+$}}
+对于 binary classification，$y\in\{0,1\}$，$\hat y=P(y=1\mid x)$。若 $y=1$，loss 变成 $-\log \hat y$；若 $y=0$，loss 变成 $-\log(1-\hat y)$。
+
+\bulletPoint{Mean Squared Error (MSE)}:
+For regression,
+$\mathcal L(\theta)=\frac{1}{N}\sum_{i=1}^N \bigl(y^{(i)}-\hat y^{(i)}\bigr)^2.$
+Mean absolute error (MAE): $\frac{1}{n} \sum_i |y_i - \hat{y}_i|$
+
+\bulletPoint{Gradient Descent (GD)}:
+Gradient:
+$\nabla \mathcal L(\theta)=\left[\frac{\partial \mathcal L}{\partial \theta_i}\right]_i.$
+Update rule:
+\textcolor{blue!50!black}{$\textstyle
+\theta_{\mathrm{new}}
+=
+\theta_{\mathrm{old}}
+-\alpha \nabla \mathcal L(\theta_{\mathrm{old}}),
+$}
+where $\alpha$ is the learning rate.
+
+\bulletPoint{Backpropagation}:
+Each training step uses:
+forward pass $\rightarrow$ compute loss $\rightarrow$ backward pass $\rightarrow$ update parameters.
+Backprop computes $\nabla\mathcal L(\theta)$ using the chain rule.
+
+\bulletPoint{Mini-Batch Gradient Descent}:
+For a mini-batch $\mathcal B$,
+$\mathcal L_{\mathcal B}(\theta)=\frac{1}{|\mathcal B|}\sum_{i\in\mathcal B}\mathcal L_i(\theta),$
+and update using $\nabla \mathcal L_{\mathcal B}(\theta).$
+Typical batch size: $32$ to $256$.
+
+\bulletPoint{Stochastic Gradient Descent (SGD)}:
+SGD uses a mini-batch of size $1$.
+In practice, “SGD” in DL libraries usually means mini-batch GD, often with momentum.
+
+\bulletPoint{Gradient Descent with Momentum}:
+Use running velocity $v_t$:
+\textcolor{purple!60!black}{$\textstyle
+v_t=\beta v_{t-1}-\alpha \nabla \mathcal L(\theta_{t-1}),
+\theta_t=\theta_{t-1}+v_t.
+$}
+
+\bulletPoint{Nesterov Momentum}:
+Compute the gradient at a look-ahead point:
+\scalebox{0.8}{\textcolor{blue!50!black}{$\textstyle   
+v_t=\beta v_{t-1}-\alpha \nabla \mathcal L(\theta_{t-1}+\beta v_{t-1}),
+\theta_t=\theta_{t-1}+v_t.
+$}}
+
+\bulletPoint{Adam}:
+Adam uses moving averages of gradients and squared gradients:
+\scalebox{0.7}{\textcolor{MidnightBlue}{\boldmath $\textstyle
+m_t=\beta_1 m_{t-1}+(1-\beta_1)g_t,
+v_t=\beta_2 v_{t-1}+(1-\beta_2)g_t^2.
+$}}
+Commonly used together with bias correction and adaptive updates.
+
+\bulletPoint{Learning Rate}:
+$\alpha$ controls the step size of parameter updates.
+Too small $\Rightarrow$ very slow convergence.
+Too large $\Rightarrow$ unstable training, divergence, saturated activations, or dead ReLU units.
+
+\bulletPoint{Learning Rate Scheduling}:
+Annealing / decay reduces $\alpha$ over time to make training more stable.
+Warmup gradually increases $\alpha$ at the beginning, then decays it later.
+Common schedules: step decay, exponential decay, cosine decay, reduce-on-plateau.
+
+\bulletPoint{Vanishing / Exploding Gradients}:
+Very small gradients cause weights to update very slowly or stop updating.
+Very large gradients cause unstable updates or divergence.
+This is common in very deep networks due to repeated chain-rule multiplication.
+Common remedies: proper initialization, ReLU-based activations, Batch Normalization, residual connections, and gradient clipping.
+
+\bulletPoint{Saturated Activations}:
+Sigmoid and $\tanh$ can saturate when inputs are very large or very small, causing gradients to become close to zero.
+This leads to slow learning or weights stopping updates.
+Common remedies: Xavier initialization, Batch Normalization, input normalization, and using ReLU-based activations.
+
+\bulletPoint{Dead ReLU}:
+A ReLU unit is dead if its input is always negative, so its output and gradient are always zero.
+The weights connected to this unit may stop updating.
+Common remedies: smaller learning rate, He initialization, Leaky ReLU, ELU, or Batch Normalization.
+
+\bulletPoint{Generalization}:
+Underfitting: high training error and high validation error.
+Overfitting: low training error but high validation error.
+
+\bulletPoint{Model Capacity}:
+More neurons / more layers $\Rightarrow$ higher capacity.
+Too little capacity $\Rightarrow$ underfitting.
+Too much capacity $\Rightarrow$ higher overfitting risk and harder optimization.
+
+\bulletPoint{$\ell_2$ Regularization}:
+\textcolor{purple!60!black}{$\textstyle
+\mathcal L_{\mathrm{reg}}(\theta)
+=
+\mathcal L(\theta)+\lambda \sum_k \theta_k^2.
+$}
+
+\bulletPoint{$\ell_1$ Regularization}:
+$\mathcal L_{\mathrm{reg}}(\theta)=\mathcal L(\theta)+\lambda \sum_k |\theta_k|.$
+
+\bulletPoint{Elastic Net}:
+$\mathcal L_{\mathrm{reg}}(\theta)
+=
+\mathcal L(\theta)+\lambda_1\sum_k |\theta_k|+\lambda_2\sum_k \theta_k^2.$
+
+\bulletPoint{Dropout}:
+Randomly drop units during training to reduce overfitting.
+Let $p$ be the probability that a unit is retained:
+$
+\tilde{h}_i = m_i h_i, \quad m_i \sim \mathrm{Bernoulli}(p).
+$
+Disable dropout during evaluation and use all units, scaling by $p$:
+$
+\tilde{h}_i = p h_i.
+$
+Equivalently, with inverted dropout, use $\tilde{h}_i = \frac{m_i h_i}{p}$ during training and $\tilde{h}_i = h_i$ during evaluation.
+
+\bulletPoint{Early Stopping}:
+Use a validation set and stop training when validation loss / accuracy does not improve for $n$ epochs.
+The hyper-parameter $n$ is called \emph{patience}.
+
+\bulletPoint{Batch Normalization}:
+For a batch input $x$ with mean $\mu$ and standard deviation $\sigma$,
+$
+\hat{x}=\frac{x-\mu}{\sigma}$(标准化) $ x_{\mathrm{BN}}=\gamma \hat{x}+\beta .
+$(把标准化后的值进行缩放和平移)
+Here, $\gamma$ and $\beta$ are learnable scale and shift parameters. In CNNs, BatchNorm usually has $2C$ learnable parameters for $C$ channels. It does not change the activation shape.
+
+Benefits: stabilizes training, improves gradient flow, allows larger learning rates, and reduces sensitivity to initialization.
+
+\bulletPoint{Hyper-Parameter Tuning}:
+• layer size+num neur, LR(schedule), optimizer type, regularization(L2), batch size, activation/loss function. \quad
+
+• Methods: grid search(check all with step), random search(prefer), Bayesian optimization. Use k-fold cross-validation if data is limited.
+
+
+\bulletPoint{$k$-Fold Cross-Validation}:
+Split training data into $k$ folds.
+Train on $k-1$ folds, validate on the remaining fold, repeat for all folds, then average validation results.
+Used mainly when training data is limited.
+
+\bulletPoint{Deep vs. Shallow Networks}:
+Deeper networks often perform better than shallow ones, but only up to a limit; performance may plateau after too many layers.
+
+\bulletPoint{Residual Networks (ResNets)} \\
+• Use identity=skip connections(out=in +sigma)\quad
+• prevent vanishing gradients. \quad
+• very deep models(18, 50, 152 layers).
+
+\bulletPoint{From MLP to CNN}:
+MLPs are not ideal for images because they flatten the image into a vector, which ignores the original spatial structure and makes the model sensitive to object position. The same pattern shifted to a different location may produce a very different output. CNNs are more suitable for image tasks because they use local connectivity to extract local features such as edges, corners, and strokes, and use weight sharing to apply the same filters across different positions. This preserves spatial structure, reduces the number of parameters, and makes CNNs more efficient and less prone to overfitting.
+
+\bulletPoint{Convolution}:
+
+1D Continuous form: $\displaystyle(x * w)(t) = \int_{-\infty}^{\infty} x(\tau)\, w(t-\tau)\, d\tau$
+
+Discrete form: $\displaystyle(x * w)[n] = \sum_{k=-\infty}^{\infty} x[k]\, w[n-k]$
+
+egample: $x=[1,2,3,4], w=[5,6,7]$，卷积后得到 $z=[5,16,34,52,45,28]$
+
+2D discrete form: $(x * w)[m,n] = \sum_{i=-\infty}^{\infty} \sum_{j=-\infty}^{\infty} x[i,j]\, w[m-i,\, n-j]$
+\bulletPoint{Local receptive field}:In CNNs, neurons in a layer are only connected to a small spatial region
+of the previous layer.
+\bulletPoint{Pooling}:
+
+Max pooling and average pooling.Pooling layers reduce the spatial size of the feature maps. Reduce the number of parameters, prevent overfitting.
+
+
+\bulletPoint{CNNs learn hierarchical features}: early layers detect edges and textures, middle layers detect parts and patterns, and deeper layers capture semantic features for final classification.
+
+\bulletPoint{Convolution Output Size and Zero Padding}:
+\useshortskip
+\begin{equation*}
+N_{\text{out}} = \frac{N-F}{S}+1, 
+N_{\text{out,pad}} = \frac{N+2P-F}{S}+1
+\end{equation*}
+For odd filter size $F$ and stride $S=1$, choose
+$P=\frac{F-1}{2}$ so that $N_{\text{out,pad}}=N$.
+Without padding, repeated convolutions shrink spatial size (e.g. 32 → 28 → 24)Shrinking too fast is not good.
+
+\bulletPoint{Example}:
+\useshortskip\noindent\resizebox{\linewidth}{!}{$
+\begin{aligned}
+&\text{Input: } 32\times 32\times 3,\; K=10,\; F=5,\; S=1,\; P=2\\
+&N_{\text{out}}=\frac{N+2P-F}{S}+1=\frac{32+2\cdot2-5}{1}+1=32\\
+&\text{Output volume: } 32\times 32\times 10\\
+&\text{Params/filter: } F\cdot F\cdot C_{\text{in}}+1=5\cdot5\cdot3+1=76\\
+&\text{Total params: } K\cdot 76 = 10\cdot 76 = 760
+\end{aligned}
+$}
+
+\bulletPoint{Code Example}:
+\useshortskip
+\noindent\begin{minipage}{\linewidth}
+{\color{blue}\ttfamily
+conv1 = torch.nn.Conv2d(in\_channels=3, out\_channels=2,\\
+kernel\_size=3, stride=1, padding=0)\\
+print(conv1(x.unsqueeze(0)).shape) \# add batch dimension
+}
+\end{minipage}
+
+\bulletPoint{Pooling layer}:
+
+1. Makes the representations smaller and more manageable.
+
+2. Operates over each activation map independently.
+
+Assume input is W1 x H1 x C, Conv layer needs 2 hyperparameters:
+
+1. The spatial extent (filter size) F，pooling window 的大小
+
+2. The stride S
+
+Output W2 x H2 x C:
+
+W2 = (W1 - F )/S + 1, H2 = (H1 - F )/S + 1
+
+Number of parameters: 0
+
+\noindent\begin{minipage}{\linewidth}
+{\color{blue}\ttfamily
+pool1 = torch.nn.MaxPool2d(kernel\_size=2, stride=2, padding=0)\newline
+\# Commonly, stride == kernel\_size
+}
+\end{minipage}
+
+\bulletPoint{Flatten}:
+Flatten only changes shape, not values. It converts spatial feature maps into vectors for FC/Linear layers.
+
+
+\bulletPoint{Layers with no parameters}:
+Input, activation layers such as ReLU, Leaky ReLU, sigmoid and tanh, pooling layers, dropout, flatten, and softmax layers have no learnable parameters. They may have hyperparameters, such as pooling size, stride, or dropout probability, but these are not learned during training.
+
+\bulletPoint{Flatten example}:
+\useshortskip\noindent\resizebox{0.85\linewidth}{!}{$
+\begin{aligned}
+&\text{Input volume: } 8\times 8\times 16
+&\text{Flatten output size: } 8\cdot 8\cdot 16 = 1024\\
+&\text{Output: } 1024
+&\text{Total params: } 0
+\end{aligned}
+$}
+
+\bulletPoint{Fully-connected layer example}:
+\useshortskip\noindent\resizebox{0.85\linewidth}{!}{$
+\begin{aligned}
+&\text{Input size: } 1024,\quad \text{number of output neurons: } 10\\
+&\text{Weights: } 1024\cdot 10
+&\text{Biases: } 10\\
+&\text{Total params: } 1024\cdot 10 + 10 = 10250
+&\text{Output: } 10
+\end{aligned}
+$}
+
+
+\bulletPoint{Implementation}:
+\useshortskip
+\noindent\includegraphics[width=\linewidth]{image/1.png}
+
+\bulletPoint{Architecture pattern}:
+
+[(CONV-RELU)* N - POOL?]* M - (FC-RELU) * K - SOFTMAX
+
+\useshortskip
+\noindent\begin{minipage}{\linewidth}
+{\color{blue}\ttfamily
+model = nn.Sequential(\\
+    nn.Conv2d(in\_channels=3, out\_channels=32, kernel\_size=3, stride=1, padding=1),\\
+    nn.ReLU(),\\
+    nn.MaxPool2d(kernel\_size=2, stride=2),\\
+    nn.Flatten(),\\
+    nn.Linear(in\_features=..., out\_features=64),\\
+    nn.ReLU(),\\
+    nn.Linear(in\_features=64, out\_features=num\_classes),\\
+    nn.Softmax(dim=1))\\
+}
+\end{minipage}
+
+
+\bulletPoint{Gradient Descent (GD)} \quad
+
+1. \textbf{Initialization:} Randomly initialize the model parameters $\theta^0$. Set $\theta^{\text{old}} = \theta^0$.
+
+2. Compute the gradient of the loss function at $\theta^{\text{old}}$: $\nabla \mathcal{L}(\theta^{\text{old}})$.
+
+3. Update the parameters:
+$\theta^{\text{new}} = \theta^{\text{old}} - \alpha \nabla \mathcal{L}(\theta^{\text{old}})$
+where $\alpha$ is the learning rate.
+
+4. repeat until terminating.
+
+GD does not guarantee reaching a global minimum.
+
+• Backpropagation: Combines forward pass + backward pass using chain rule to compute gradients of loss w.r.t. weights. 
+
+• Batch GD: compute gradients over full dataset. 
+
+• Mini-batch GD: over subset (32 to 256 samples). Mini-batch gradient approximates the full training set gradient well.
+
+• SGD: mini-batch size = 1, fast but noisy. Less used. 
+
+\bulletPoint{GD with Momentum:}
+
+• Momentum: $v_t = \beta v_{t-1} + (1-\beta) \nabla \mathcal{L}$, improves convergence. \quad
+
+• Nesterov Momentum: lookahead at next step before computing gradient. (Skip)
+
+• Adam: computes a weighted average of past gradients(1st moment of G) and weighted average of past squared gradients(2rd). 
+• Other: RMSprop, Adagrad, Adadelta, Nadam, etc. 
+• Most used: Adam, SGD with momentum.
+
+
+
+
+
+\end{multicols*}
+
+\end{document}
