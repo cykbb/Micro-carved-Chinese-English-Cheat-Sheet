@@ -4,7 +4,7 @@
 
 ## 中文说明
 
-这是一个高度压缩排版的中英文课程速查表，使用 LaTeX 制作，内容覆盖概率复习、贝叶斯推断、线性回归、混合模型、EM、采样方法、神经网络与深度学习等主题。仓库同时保留源码和已生成的 PDF，方便直接查看或继续修改。
+这是一个为 NTU EE6497 / IE4497 课程整理的高度压缩中英文速查表，使用 LaTeX 制作，内容覆盖概率复习、贝叶斯推断、线性回归、混合模型、EM、采样方法、神经网络与深度学习等主题。仓库同时保留源码和已生成的 PDF，方便直接查看或继续修改。
 
 ### 文件结构
 
@@ -35,7 +35,7 @@ xelatex main.tex
 
 ## English
 
-This repository contains a compact Chinese-English cheat sheet typeset in LaTeX. It covers probability review, Bayesian inference, linear regression, mixture models, EM, sampling methods, neural networks, deep learning, and related course topics. Both the source files and the generated PDF are included so the sheet can be viewed directly or edited further.
+This repository contains a compact Chinese-English cheat sheet for the NTU EE6497 / IE4497 course, typeset in LaTeX. It covers probability review, Bayesian inference, linear regression, mixture models, EM, sampling methods, neural networks, deep learning, and related course topics. Both the source files and the generated PDF are included so the sheet can be viewed directly or edited further.
 
 ### Project Structure
 
